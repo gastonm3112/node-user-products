@@ -1,11 +1,13 @@
 const express = require('express');
+const userModel = require('../models/user');
+const userService = require('../services/userService');
 
 /**
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const getUsers = (req, res) => {
+const getUser = (req, res) => {
 
   const query = req.query;
 
@@ -21,14 +23,14 @@ const getUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const createUsers = (req, res) => {
+const createUser = async (req, res) => {
 
-  const { nombre, edad } = req.body;
+  const body = req.body;
+  const user = await userService.save(body);
+
 
   res.status(201).json({
-    message: 'post - API controller',
-    nombre,
-    edad
+    user
   })
 
 }
@@ -38,7 +40,7 @@ const createUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const updateUsers = (req, res) => {
+const updateUser = (req, res) => {
 
   const id = req.params.id;
 
@@ -54,7 +56,7 @@ const updateUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const deleteUsers = (req, res) => {
+const deleteUser = (req, res) => {
 
   res.status(200).json({
     message: 'post - API controller'
@@ -63,8 +65,8 @@ const deleteUsers = (req, res) => {
 }
 
 module.exports = {
-  getUsers,
-  createUsers,
-  updateUsers,
-  deleteUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
 }
