@@ -1,6 +1,6 @@
 const express = require('express');
-const userModel = require('../models/user');
 const userService = require('../services/userService');
+const Success = require('../handlers/succesHandler');
 
 /**
  * 
@@ -23,15 +23,17 @@ const getUser = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
+  try {
+    let user = req.body;
+    user = await userService.save(user);
 
-  const body = req.body;
-  const user = await userService.save(body);
 
+    res.status(201).json(new Success(user));
 
-  res.status(201).json({
-    user
-  })
+  } catch (error) {
+    next(error);
+  }
 
 }
 
