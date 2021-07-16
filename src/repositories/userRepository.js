@@ -7,6 +7,10 @@ class UserRepository {
 
   }
 
+  async findByEmail(email) {
+    return await User.findOne({ email });
+  }
+
 
   async save(user) {
     user.password = await bcrypt.hash(user.password, 10);

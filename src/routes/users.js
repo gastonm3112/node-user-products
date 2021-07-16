@@ -5,11 +5,14 @@ const {
   updateUser,
   deleteUser,
 } = require('../controllers/users');
+const {
+  postValidationsRequest,
+} = require('../middlewares/user/users');
 
 const router = new Router();
 
 router.get('/', getUser);
-router.post('/', createUser);
+router.post('/', postValidationsRequest, createUser);
 router.put('/:id', updateUser);
 router.delete('/', deleteUser);
 
