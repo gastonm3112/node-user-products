@@ -1,11 +1,13 @@
 const express = require('express');
+const userService = require('../services/userService');
+const Success = require('../handlers/succesHandler');
 
 /**
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const getUsers = (req, res) => {
+const getUser = (req, res) => {
 
   const query = req.query;
 
@@ -21,15 +23,17 @@ const getUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const createUsers = (req, res) => {
+const createUser = async (req, res, next) => {
+  try {
+    let user = req.body;
+    user = await userService.save(user);
 
-  const { nombre, edad } = req.body;
 
-  res.status(201).json({
-    message: 'post - API controller',
-    nombre,
-    edad
-  })
+    res.status(201).json(new Success(user));
+
+  } catch (error) {
+    next(error);
+  }
 
 }
 
@@ -38,7 +42,7 @@ const createUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const updateUsers = (req, res) => {
+const updateUser = (req, res) => {
 
   const id = req.params.id;
 
@@ -54,7 +58,7 @@ const updateUsers = (req, res) => {
  * @param {Express.Request} req 
  * @param {Express.Response} res 
  */
-const deleteUsers = (req, res) => {
+const deleteUser = (req, res) => {
 
   res.status(200).json({
     message: 'post - API controller'
@@ -63,8 +67,8 @@ const deleteUsers = (req, res) => {
 }
 
 module.exports = {
-  getUsers,
-  createUsers,
-  updateUsers,
-  deleteUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
 }
