@@ -8,6 +8,7 @@ const {
 const {
   postValidationsRequest,
   putValidationsRequest,
+  deleteValidationsRequest
 } = require('../middlewares/user/index');
 
 const router = new Router();
@@ -15,6 +16,6 @@ const router = new Router();
 router.get('/', getUsers);
 router.post('/', postValidationsRequest, createUser);
 router.put('/:id', putValidationsRequest, updateUser);
-router.delete('/', deleteUser);
+router.delete('/:id', deleteValidationsRequest, deleteUser);
 
 module.exports = router;

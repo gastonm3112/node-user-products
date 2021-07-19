@@ -21,6 +21,10 @@ const update = async (id, user) => {
   return await userRepository.update(id, user);
 }
 
+const remove = async (id) => {
+  return await userRepository.remove(id);
+} 
+
 
 
 module.exports = {
@@ -29,4 +33,5 @@ module.exports = {
   getAllUsers,
   save,
   update,
+  remove
 }

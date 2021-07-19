@@ -69,12 +69,18 @@ const updateUser = async (req, res, next) => {
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
+ * @param {Express.next} next
  */
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.remove(id);
 
-  res.status(200).json({
-    message: 'post - API controller'
-  })
+    res.status(200).json(new Success(user));
+  } catch (error) {
+    next(error);
+  }
+
 
 }
 

@@ -70,6 +70,13 @@ const putValidationsRequest = [
   _optionalEmailExist,
   _roleValid,
   validationResult
+];
+
+const deleteValidationsRequest = [
+  _idRequired,
+  _idValid,
+  _idExist,
+  validationResult
 ]
 
 
@@ -77,5 +84,6 @@ const putValidationsRequest = [
 
 module.exports = {
   postValidationsRequest,
-  putValidationsRequest
+  putValidationsRequest,
+  deleteValidationsRequest
 }

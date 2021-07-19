@@ -33,6 +33,10 @@ class UserRepository {
     return await User.findByIdAndUpdate(id, user, { new: true });
   }
 
+  async remove(id) {
+    return await User.findByIdAndUpdate(id, { state: false });
+  }
+
 
 
 }
