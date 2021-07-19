@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const userSchema = new Schema({
   name: {
@@ -34,6 +35,7 @@ const userSchema = new Schema({
 });
 
 userSchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
+userSchema.plugin(mongoosePaginate);
 
 
 module.exports = model('User', userSchema);

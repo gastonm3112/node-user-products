@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {
-  getUser,
+  getUsers,
   createUser,
   updateUser,
   deleteUser,
@@ -12,7 +12,7 @@ const {
 
 const router = new Router();
 
-router.get('/', getUser);
+router.get('/', getUsers);
 router.post('/', postValidationsRequest, createUser);
 router.put('/:id', putValidationsRequest, updateUser);
 router.delete('/', deleteUser);

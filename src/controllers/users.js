@@ -5,16 +5,21 @@ const Success = require('../handlers/succesHandler');
 /**
  * 
  * @param {Express.Request} req 
- * @param {Express.Response} res 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
  */
-const getUser = (req, res) => {
+const getUsers = async (req, res, next) => {
+  try {
+    const { filter, options } = req.query;
 
-  const query = req.query;
+    const users = await userService.getAllUsers(filter, options);
 
-  res.json({
-    message: 'get Exitoso - API controler',
-    query
-  })
+    res.json(new Success(users));
+
+  } catch (error) {
+    next(error);
+  }
+
 
 }
 
@@ -74,7 +79,7 @@ const deleteUser = (req, res) => {
 }
 
 module.exports = {
-  getUser,
+  getUsers,
   createUser,
   updateUser,
   deleteUser,

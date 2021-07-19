@@ -15,6 +15,14 @@ class UserRepository {
     return await User.findOne({ email });
   }
 
+  async getAllUsers() {
+    return await User.find();
+  }
+
+  async getAllUsersWithPagination(filter, options) {
+    return await User.paginate(filter, options);
+  }
+
 
   async save(user) {
     user.password = await bcrypt.hash(user.password, 10);
