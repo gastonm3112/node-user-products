@@ -2,6 +2,7 @@ const { validationResult } = require('../result');
 const { check } = require('express-validator');
 const AppError = require('../../errors/appError');
 const userService = require('../../services/userService');
+const { ROLES } = require('../../constants/index');
 
 //POST validations
 const _nameRequired = check('name', 'name required').not().isEmpty();
@@ -16,7 +17,13 @@ const _emailExist = check('email').custom(
   }
 )
 const _passwordRequired = check('password', 'password required').not().isEmpty();
-const _roleValid = check('role', 'invalid role').isIn(['USER_ROLE', 'ADMIN_ROLE']);
+const _roleValid = check('role').custom(
+  async (role = '') => {
+    if (!ROLES.includes(role)) {
+      throw new AppError('Invalid role', 400);
+    }
+  }
+)
 
 
 
