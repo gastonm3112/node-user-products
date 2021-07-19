@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new Schema({
   name: {
@@ -32,7 +33,7 @@ const userSchema = new Schema({
   }
 });
 
-
+userSchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
 
 
 module.exports = model('User', userSchema);
