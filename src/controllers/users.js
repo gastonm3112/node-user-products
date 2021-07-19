@@ -21,7 +21,8 @@ const getUser = (req, res) => {
 /**
  * 
  * @param {Express.Request} req 
- * @param {Express.Response} res 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
  */
 const createUser = async (req, res, next) => {
   try {
@@ -41,15 +42,21 @@ const createUser = async (req, res, next) => {
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
+ * @param {Express.next} next
  */
-const updateUser = (req, res) => {
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let user = req.body;
+    user._id = id;
 
-  const id = req.params.id;
+    const userUpdated = await userService.update(id, user);
 
-  res.status(200).json({
-    message: 'put - API controller',
-    id
-  })
+    res.status(200).json(new Success(userUpdated));
+
+  } catch (error) {
+    next(error);
+  }
 
 }
 

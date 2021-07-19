@@ -15,15 +15,36 @@ const _emailExist = check('email').custom(
       throw new AppError('email already exists in DB', 400);
     }
   }
-)
+);
 const _passwordRequired = check('password', 'password required').not().isEmpty();
-const _roleValid = check('role').custom(
+const _roleValid = check('role').optional().custom(
   async (role = '') => {
     if (!ROLES.includes(role)) {
       throw new AppError('Invalid role', 400);
     }
   }
-)
+);
+
+//PUT validations
+const _idRequired = check('id').not().isEmpty();
+const _idValid = check('id').isMongoId();
+const _idExist = check('id').custom(
+  async (id = '') => {
+    const userFound = await userService.findById(id);
+    if (!userFound) {
+      throw new AppError('The id does not exist in the DB', 400);
+    }
+  }
+);
+const _optionalEmailValid = check('email', 'invalid email').optional().isEmail();
+const _optionalEmailExist = check('email').optional().custom(
+  async (email = '') => {
+    const userFound = await userService.findByEmail(email);
+    if (userFound) {
+      throw new AppError('email already exists in DB', 400);
+    }
+  }
+);
 
 
 
@@ -39,6 +60,16 @@ const postValidationsRequest = [
   _passwordRequired,
   _roleValid,
   validationResult
+];
+
+const putValidationsRequest = [
+  _idRequired,
+  _idValid,
+  _idExist,
+  _optionalEmailValid,
+  _optionalEmailExist,
+  _roleValid,
+  validationResult
 ]
 
 
@@ -46,4 +77,5 @@ const postValidationsRequest = [
 
 module.exports = {
   postValidationsRequest,
+  putValidationsRequest
 }
