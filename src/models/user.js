@@ -36,6 +36,11 @@ const userSchema = new Schema({
 
 userSchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
 userSchema.plugin(mongoosePaginate);
+userSchema.methods.toJSON = function () {
+  const { __v, password, _id, ...user } = this.toObject();
+  user.uid = _id;
+  return user;
+}
 
 
 module.exports = model('User', userSchema);
