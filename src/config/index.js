@@ -12,4 +12,8 @@ module.exports = {
     prefix: '/api/v1'
   },
   databaseURL: process.env.DATABASE_URL,
+  auth: {
+    secret: process.env.AUTH_SECRET,
+    expires: process.env.AUTH_EXP
+  }
 }
