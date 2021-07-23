@@ -64,6 +64,8 @@ const postValidationsRequest = [
 ];
 
 const putValidationsRequest = [
+  validJWT,
+  hasRole('ADMIN_ROLE'),
   _idRequired,
   _idValid,
   _idExist,
