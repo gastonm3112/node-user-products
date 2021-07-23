@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
 const config = require('../../config');
 
@@ -26,6 +27,8 @@ class ExpressServer {
 
     //JSON use
     this.app.use(express.json());
+
+    this.app.use(morgan('tiny'));
   }
 
   _routes() {
