@@ -38,14 +38,12 @@ const login = async (email, password) => {
 
 const validToken = async (token) => {
   try {
-    //TODO:
-    //Validar que ingrese por parametro el token
     if (!token) {
       throw new AppError('Authentication failed! Token required', 401);
     }
 
     console.log(`Token received: ${token}`);
-    //Validar que el token siga vivo
+
     let id;
     try {
       const obj = jwt.verify(token, config.auth.secret);
@@ -53,23 +51,27 @@ const validToken = async (token) => {
     } catch (error) {
       throw new AppError('Authentication failed! Invalid Token', 401)
     }
-    //Validar si hay usuario en DB
+
     const user = await userService.findById(id);
     if (!user) {
       throw new AppError('Authentication failed! User not found', 401);
     }
-    //Validar si el usuario esta habilitado
+
     if (!user.state) {
       throw new AppError('Authentication failed!, user is not enable', 401);
     }
-    //retornarusuario
+
     return user;
   } catch (error) {
     throw error;
   }
+}
 
-
-
+const validRole = (user, ...roles) => {
+  if (!roles.includes(user.role)) {
+    throw new AppError('Authorization failed! User without privileges', 403);
+  }
+  return true;
 }
 
 
@@ -81,6 +83,7 @@ _encrypt = (uid) => {
 
 module.exports = {
   login,
-  validToken
+  validToken,
+  validRole
 
 }
