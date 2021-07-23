@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const AppError = require('../../errors/appError');
 const userService = require('../../services/userService');
 const { ROLES } = require('../../constants/index');
+const { validJWT } = require('../auth/index');
 
 //POST validations
 const _nameRequired = check('name', 'name required').not().isEmpty();
@@ -73,6 +74,7 @@ const putValidationsRequest = [
 ];
 
 const deleteValidationsRequest = [
+  validJWT,
   _idRequired,
   _idValid,
   _idExist,
