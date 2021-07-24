@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
 const config = require('../../config');
 
@@ -8,11 +9,16 @@ class ExpressServer {
     this.app = express();
     this.port = config.port;
     this.basePathUsers = `${config.api.prefix}/users`;
+    this.basePathAuth = `${config.api.prefix}/auth`;
 
     //middlewares
     this._middlewares();
     //rutas
     this._routes();
+    //No se encuentra
+    this._notFound();
+    //Manejo de errores
+    this._errorHandler();
   }
 
   _middlewares() {
@@ -21,10 +27,36 @@ class ExpressServer {
 
     //JSON use
     this.app.use(express.json());
+
+    this.app.use(morgan('tiny'));
   }
 
   _routes() {
+    this.app.use(`${this.basePathAuth}`, require('../../routes/auth'));
     this.app.use(`${this.basePathUsers}`, require('../../routes/users'));
+  }
+
+  _notFound() {
+    this.app.use((req, res, next) => {
+      const err = new Error('Not found');
+      err.code = 404;
+      next(err);
+    });
+  }
+
+  _errorHandler() {
+    this.app.use((err, req, res, next) => {
+      const code = err.code || 500;
+
+      const body = {
+        error: {
+          code,
+          message: err.message,
+          detail: err.data
+        }
+      }
+      res.status(code).json(body);
+    });
   }
 
   listen() {

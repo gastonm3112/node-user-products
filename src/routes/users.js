@@ -1,16 +1,21 @@
 const { Router } = require('express');
 const {
   getUsers,
-  createUsers,
-  updateUsers,
-  deleteUsers,
+  createUser,
+  updateUser,
+  deleteUser,
 } = require('../controllers/users');
+const {
+  postValidationsRequest,
+  putValidationsRequest,
+  deleteValidationsRequest
+} = require('../middlewares/user/index');
 
 const router = new Router();
 
 router.get('/', getUsers);
-router.post('/', createUsers);
-router.put('/:id', updateUsers);
-router.delete('/', deleteUsers);
+router.post('/', postValidationsRequest, createUser);
+router.put('/:id', putValidationsRequest, updateUser);
+router.delete('/:id', deleteValidationsRequest, deleteUser);
 
 module.exports = router;

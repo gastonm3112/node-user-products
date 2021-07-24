@@ -1,18 +1,45 @@
 const express = require('express');
+const userService = require('../services/userService');
+const Success = require('../handlers/succesHandler');
 
 /**
  * 
  * @param {Express.Request} req 
- * @param {Express.Response} res 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
  */
-const getUsers = (req, res) => {
+const getUsers = async (req, res, next) => {
+  try {
+    const { filter, options } = req.query;
 
-  const query = req.query;
+    const users = await userService.getAllUsers(filter, options);
 
-  res.json({
-    message: 'get Exitoso - API controler',
-    query
-  })
+    res.json(new Success(users));
+
+  } catch (error) {
+    next(error);
+  }
+
+
+}
+
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
+ */
+const createUser = async (req, res, next) => {
+  try {
+    let user = req.body;
+    user = await userService.save(user);
+
+
+    res.status(201).json(new Success(user));
+
+  } catch (error) {
+    next(error);
+  }
 
 }
 
@@ -20,16 +47,21 @@ const getUsers = (req, res) => {
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
+ * @param {Express.next} next
  */
-const createUsers = (req, res) => {
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    let user = req.body;
+    user._id = id;
 
-  const { nombre, edad } = req.body;
+    const userUpdated = await userService.update(id, user);
 
-  res.status(201).json({
-    message: 'post - API controller',
-    nombre,
-    edad
-  })
+    res.status(200).json(new Success(userUpdated));
+
+  } catch (error) {
+    next(error);
+  }
 
 }
 
@@ -37,34 +69,24 @@ const createUsers = (req, res) => {
  * 
  * @param {Express.Request} req 
  * @param {Express.Response} res 
+ * @param {Express.next} next
  */
-const updateUsers = (req, res) => {
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.remove(id);
 
-  const id = req.params.id;
+    res.status(200).json(new Success(user));
+  } catch (error) {
+    next(error);
+  }
 
-  res.status(200).json({
-    message: 'put - API controller',
-    id
-  })
-
-}
-
-/**
- * 
- * @param {Express.Request} req 
- * @param {Express.Response} res 
- */
-const deleteUsers = (req, res) => {
-
-  res.status(200).json({
-    message: 'post - API controller'
-  })
 
 }
 
 module.exports = {
   getUsers,
-  createUsers,
-  updateUsers,
-  deleteUsers,
+  createUser,
+  updateUser,
+  deleteUser,
 }
