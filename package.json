@@ -4,8 +4,8 @@
   "description": "Node API REST of users with authentication",
   "main": "index.js",
   "scripts": {
-    "start": "node src/",
-    "dev": "nodemon src/",
+    "start": "node src",
+    "dev": "nodemon src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
