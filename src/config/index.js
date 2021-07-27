@@ -15,5 +15,9 @@ module.exports = {
   auth: {
     secret: process.env.AUTH_SECRET,
     expires: process.env.AUTH_EXP
+  },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET_ID
   }
 }
