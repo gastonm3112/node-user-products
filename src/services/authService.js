@@ -1,8 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const userService = require('../services/userService');
 const AppError = require('../errors/appError');
 const config = require('../config');
+const client = new OAuth2Client(config.google.clientId);
+
 
 const login = async (email, password) => {
   try {
@@ -80,10 +83,31 @@ _encrypt = (uid) => {
 }
 
 
+const verifyGoogleToken = async (idToken = '') => {
+
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: config.google.clientId,
+  });
+
+  const {
+    name,
+    email,
+    picture: img
+  } = ticket.getPayload();
+
+  return {
+    name,
+    email,
+    img
+  };
+}
+
+
 
 module.exports = {
   login,
   validToken,
-  validRole
-
+  validRole,
+  verifyGoogleToken
 }

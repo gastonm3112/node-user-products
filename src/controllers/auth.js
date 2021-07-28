@@ -1,6 +1,7 @@
 const express = require('express');
 const authService = require('../services/authService');
 const Success = require('../handlers/succesHandler');
+const AppError = require('../errors/appError');
 
 
 /**
@@ -26,14 +27,21 @@ const login = async (req, res, next) => {
  * @param {Express.Request} res 
  * @param {Express.next} next 
  */
-const googleSignin = (req, res) => {
+const googleSignin = async (req, res) => {
 
   const { id_token } = req.body;
 
-  res.json({
-    msg: 'This controller works!',
-    id_token
-  })
+  try {
+
+    const googleUser = await authService.verifyGoogleToken(id_token);
+
+    console.log(googleUser);
+
+    res.json(new Success(googleUser));
+
+  } catch (error) {
+    throw new AppError('Invalid Google ID Token', 400);
+  }
 
 
 }
