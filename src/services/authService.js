@@ -1,8 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 const userService = require('../services/userService');
 const AppError = require('../errors/appError');
 const config = require('../config');
+const client = new OAuth2Client(config.google.clientId);
+
 
 const login = async (email, password) => {
   try {
@@ -32,7 +35,6 @@ const login = async (email, password) => {
   } catch (error) {
     throw error;
   }
-
 
 }
 
@@ -80,10 +82,69 @@ _encrypt = (uid) => {
 }
 
 
+const verifyGoogleToken = async (idToken) => {
+
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: config.google.clientId,
+  });
+
+
+  const {
+    name,
+    email,
+    picture: img
+  } = ticket.getPayload();
+
+  return {
+    name,
+    email,
+    img
+  };
+}
+
+const googleLogin = async (idToken) => {
+
+  const { name, email, img } = await verifyGoogleToken(idToken);
+  let user = await userService.findByEmail(email);
+  if (!user) {
+    //Create user
+    const userData = {
+      name,
+      email,
+      img,
+      password: 'no-required',
+      google: true
+    };
+
+    user = await userService.saveGoogleUser(userData);
+  }
+
+  if (!user.state) {
+    throw new AppError('This user is disabled', 401);
+  }
+
+  //Generar JWT
+  const token = _encrypt(user._id);
+
+  return {
+    user,
+    token
+  }
+
+
+}
+
+
+
+
+
+
 
 module.exports = {
   login,
   validToken,
-  validRole
-
+  validRole,
+  verifyGoogleToken,
+  googleLogin
 }

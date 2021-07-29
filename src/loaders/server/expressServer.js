@@ -29,9 +29,12 @@ class ExpressServer {
     this.app.use(express.json());
 
     this.app.use(morgan('tiny'));
+
+    this.app.use(express.static('src/public'));
   }
 
   _routes() {
+
     this.app.use(`${this.basePathAuth}`, require('../../routes/auth'));
     this.app.use(`${this.basePathUsers}`, require('../../routes/users'));
   }
