@@ -27,20 +27,15 @@ const login = async (req, res, next) => {
  * @param {Express.Request} res 
  * @param {Express.next} next 
  */
-const googleSignin = async (req, res) => {
+const googleSignin = async (req, res, next) => {
 
   const { id_token } = req.body;
 
   try {
-
-    const googleUser = await authService.verifyGoogleToken(id_token);
-
-    console.log(googleUser);
-
-    res.json(new Success(googleUser));
+    res.json(new Success(await authService.googleLogin(id_token)));
 
   } catch (error) {
-    throw new AppError('Invalid Google ID Token', 400);
+    next(error);
   }
 
 

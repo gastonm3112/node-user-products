@@ -36,7 +36,6 @@ const login = async (email, password) => {
     throw error;
   }
 
-
 }
 
 const validToken = async (token) => {
@@ -83,12 +82,13 @@ _encrypt = (uid) => {
 }
 
 
-const verifyGoogleToken = async (idToken = '') => {
+const verifyGoogleToken = async (idToken) => {
 
   const ticket = await client.verifyIdToken({
     idToken,
     audience: config.google.clientId,
   });
+
 
   const {
     name,
@@ -103,11 +103,48 @@ const verifyGoogleToken = async (idToken = '') => {
   };
 }
 
+const googleLogin = async (idToken) => {
+
+  const { name, email, img } = await verifyGoogleToken(idToken);
+  let user = await userService.findByEmail(email);
+  if (!user) {
+    //Create user
+    const userData = {
+      name,
+      email,
+      img,
+      password: 'no-required',
+      google: true
+    };
+
+    user = await userService.saveGoogleUser(userData);
+  }
+
+  if (!user.state) {
+    throw new AppError('This user is disabled', 401);
+  }
+
+  //Generar JWT
+  const token = _encrypt(user._id);
+
+  return {
+    user,
+    token
+  }
+
+
+}
+
+
+
+
+
 
 
 module.exports = {
   login,
   validToken,
   validRole,
-  verifyGoogleToken
+  verifyGoogleToken,
+  googleLogin
 }

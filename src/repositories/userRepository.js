@@ -29,6 +29,10 @@ class UserRepository {
     return await User.create(user);
   }
 
+  async saveGoogleUser(user) {
+    return await User.create(user);
+  }
+
   async update(id, user) {
     return await User.findByIdAndUpdate(id, user, { new: true });
   }
