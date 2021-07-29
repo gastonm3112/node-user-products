@@ -17,13 +17,18 @@ const save = async (user) => {
   return await userRepository.save(user);
 }
 
+const saveGoogleUser = async (user) => {
+  return await userRepository.saveGoogleUser(user);
+}
+
+
 const update = async (id, user) => {
   return await userRepository.update(id, user);
 }
 
 const remove = async (id) => {
   return await userRepository.remove(id);
-} 
+}
 
 
 
@@ -32,6 +37,7 @@ module.exports = {
   findByEmail,
   getAllUsers,
   save,
+  saveGoogleUser,
   update,
   remove
 }

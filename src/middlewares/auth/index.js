@@ -46,6 +46,8 @@ const hasRole = (...roles) => {
   }
 }
 
+const _googleIdTokenRequired = check('id_token', 'id_token required').not().isEmpty();
+
 
 
 
@@ -56,8 +58,15 @@ const loginRequestValidations = [
   validationResult
 ];
 
+const googleRequestValidations = [
+  _googleIdTokenRequired,
+  validationResult
+
+]
+
 module.exports = {
   loginRequestValidations,
+  googleRequestValidations,
   validJWT,
   hasRole
 }
