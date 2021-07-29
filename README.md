@@ -13,6 +13,7 @@ An API REST of users with authentication
 - mongoose-paginate-v2: pagination and filters
 - mongoose-unique-validator: Mongoose validator
 - morgan: API's request logs in the console
+- Google signin: Authentication with google
 
 ## Install
 
