@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const { postCategoriesValidations } = require('../middlewares/category');
+const { createCategory } = require('../controllers/categories');
 
 const router = new Router();
 
@@ -13,9 +15,7 @@ router.get('/:id', (req, res) => {
 });
 
 //Crear categoria - privado - Cualquier persona con un token valido
-router.post('/', (req, res) => {
-  res.json('Post');
-});
+router.post('/', postCategoriesValidations, createCategory);
 
 //Actusalizar - privado - Cualquiera con token valido
 router.put('/:id', (req, res) => {
