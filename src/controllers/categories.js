@@ -2,7 +2,27 @@ const express = require('express');
 const categoryService = require('../services/categoryService');
 const Success = require('../handlers/succesHandler');
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
+ */
+const getCategories = async (req, res, next) => {
 
+  const { filter, options } = req.query;
+
+  const customOptions = {
+    options,
+    populate: 'user'
+  }
+
+  const categories = await categoryService.getAllCategories(filter, customOptions);
+
+  res.json(new Success(categories));
+
+
+}
 
 /**
  * 
@@ -30,5 +50,6 @@ const createCategory = async (req, res, next) => {
 }
 
 module.exports = {
+  getCategories,
   createCategory,
 }

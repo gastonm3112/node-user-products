@@ -4,6 +4,10 @@ class CategoryRepository {
 
   constructor() { }
 
+  async getCategoriesWithPagination(filter, options) {
+    return await Category.paginate(filter, options);
+  }
+
   async findCategoryByName(name) {
     return await Category.findOne({ name });
   }

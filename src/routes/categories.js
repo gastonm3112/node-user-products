@@ -1,13 +1,14 @@
 const { Router } = require('express');
 const { postCategoriesValidations } = require('../middlewares/category');
-const { createCategory } = require('../controllers/categories');
+const {
+  getCategories,
+  createCategory
+} = require('../controllers/categories');
 
 const router = new Router();
 
 //Obterner categorias - publico
-router.get('/', (req, res) => {
-  res.json('Todo Ok!');
-});
+router.get('/', getCategories);
 
 //Obtener UNA categoria - publico
 router.get('/:id', (req, res) => {
