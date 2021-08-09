@@ -20,9 +20,29 @@ const getCategories = async (req, res, next) => {
   const categories = await categoryService.getAllCategories(filter, customOptions);
 
   res.json(new Success(categories));
+}
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res
+ * @param {Express.next} next 
+ */
+const getCategoryById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const category = await categoryService.findCategoryById(id);
+
+    res.json(new Success(category));
+
+  } catch (error) {
+    next(error);
+  }
 
 }
+
+
 
 /**
  * 
@@ -51,5 +71,6 @@ const createCategory = async (req, res, next) => {
 
 module.exports = {
   getCategories,
+  getCategoryById,
   createCategory,
 }

@@ -8,6 +8,10 @@ class CategoryRepository {
     return await Category.paginate(filter, options);
   }
 
+  async findCategoryById(id) {
+    return await Category.findById(id).populate('user');
+  }
+
   async findCategoryByName(name) {
     return await Category.findOne({ name });
   }

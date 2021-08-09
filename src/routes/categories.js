@@ -1,8 +1,12 @@
 const { Router } = require('express');
-const { postCategoriesValidations } = require('../middlewares/category');
+const {
+  getCategoriesValidations,
+  postCategoriesValidations
+} = require('../middlewares/category');
 const {
   getCategories,
-  createCategory
+  getCategoryById,
+  createCategory,
 } = require('../controllers/categories');
 
 const router = new Router();
@@ -11,9 +15,7 @@ const router = new Router();
 router.get('/', getCategories);
 
 //Obtener UNA categoria - publico
-router.get('/:id', (req, res) => {
-  res.json('Get - id');
-});
+router.get('/:id', getCategoriesValidations, getCategoryById);
 
 //Crear categoria - privado - Cualquier persona con un token valido
 router.post('/', postCategoriesValidations, createCategory);

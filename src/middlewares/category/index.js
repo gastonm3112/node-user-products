@@ -16,11 +16,27 @@ const _nameExist = check('name').custom(
   }
 );
 
+//ID Validations
+const _idRequired = check('id').not().isEmpty();
+const _idValid = check('id').isMongoId();
+const _idExist = check('id').custom(
+  async (id = '') => {
+    const categoryFound = await categoryService.findCategoryById(id);
+    if (!categoryFound) {
+      throw new AppError('The id does not exist in the DB', 400);
+    }
+  }
+);
 
 
 
 
 
+const getCategoriesValidations = [
+  _idRequired,
+  _idValid,
+  _idExist
+]
 
 
 
@@ -37,5 +53,6 @@ const postCategoriesValidations = [
 
 
 module.exports = {
+  getCategoriesValidations,
   postCategoriesValidations,
 }
