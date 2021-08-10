@@ -1,12 +1,15 @@
 const { Router } = require('express');
 const {
   getCategoriesValidations,
-  postCategoriesValidations
+  postCategoriesValidations,
+  putCategoriesValidations
 } = require('../middlewares/category');
 const {
   getCategories,
   getCategoryById,
   createCategory,
+  updateCategory,
+  deleteCategoriesValidations
 } = require('../controllers/categories');
 
 const router = new Router();
@@ -21,14 +24,10 @@ router.get('/:id', getCategoriesValidations, getCategoryById);
 router.post('/', postCategoriesValidations, createCategory);
 
 //Actusalizar - privado - Cualquiera con token valido
-router.put('/:id', (req, res) => {
-  res.json('put');
-});
+router.put('/:id', putCategoriesValidations, updateCategory);
 
 //Borrar categoria - ADMIN_ROLE unicamente
-router.delete('/:id', (req, res) => {
-  res.json('Delete');
-});
+router.delete('/:id', deleteCategoriesValidations);
 
 
 module.exports = router;

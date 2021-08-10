@@ -18,6 +18,10 @@ const saveCategory = async (category) => {
   return await categoryRepository.saveCategory(category);
 }
 
+const updateCategory = async (id, category) => {
+  return await categoryRepository.updateCategory(id, category);
+}
+
 
 
 
@@ -27,5 +31,6 @@ module.exports = {
   getAllCategories,
   findCategoryById,
   findCategoryByName,
-  saveCategory
+  saveCategory,
+  updateCategory
 }

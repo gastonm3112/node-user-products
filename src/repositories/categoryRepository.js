@@ -20,6 +20,10 @@ class CategoryRepository {
     return await Category.create(category);
   }
 
+  async updateCategory(id, category) {
+    return await Category.findByIdAndUpdate(id, category, { new: true });
+  }
+
 
 }
 

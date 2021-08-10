@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 const { validationResult } = require('../result');
-const { validJWT } = require('../auth');
+const { validJWT, hasRole } = require('../auth');
 const categoryService = require('../../services/categoryService');
 const AppError = require('../../errors/appError');
 
@@ -49,6 +49,24 @@ const postCategoriesValidations = [
   validationResult
 ];
 
+const putCategoriesValidations = [
+  validJWT,
+  _idRequired,
+  _idValid,
+  _idExist,
+  _nameRequired,
+  _nameExist,
+  validationResult
+];
+
+const deleteCategoriesValidations = [
+  validJWT,
+  hasRole('ADMIN_ROLE'),
+  _idRequired,
+  _idValid,
+  _idExist,
+  validationResult
+];
 
 
 
@@ -56,4 +74,6 @@ const postCategoriesValidations = [
 module.exports = {
   getCategoriesValidations,
   postCategoriesValidations,
+  putCategoriesValidations,
+  deleteCategoriesValidations
 }
