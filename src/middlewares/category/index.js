@@ -35,7 +35,8 @@ const _idExist = check('id').custom(
 const getCategoriesValidations = [
   _idRequired,
   _idValid,
-  _idExist
+  _idExist,
+  validationResult
 ]
 
 
