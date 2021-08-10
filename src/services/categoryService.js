@@ -22,7 +22,9 @@ const updateCategory = async (id, category) => {
   return await categoryRepository.updateCategory(id, category);
 }
 
-
+const removeCategory = async (id) => {
+  return await categoryRepository.removeCategory(id);
+}
 
 
 
@@ -32,5 +34,6 @@ module.exports = {
   findCategoryById,
   findCategoryByName,
   saveCategory,
-  updateCategory
+  updateCategory,
+  removeCategory
 }

@@ -2,14 +2,15 @@ const { Router } = require('express');
 const {
   getCategoriesValidations,
   postCategoriesValidations,
-  putCategoriesValidations
+  putCategoriesValidations,
+  deleteCategoriesValidations
 } = require('../middlewares/category');
 const {
   getCategories,
   getCategoryById,
   createCategory,
   updateCategory,
-  deleteCategoriesValidations
+  removeCategory
 } = require('../controllers/categories');
 
 const router = new Router();
@@ -27,7 +28,7 @@ router.post('/', postCategoriesValidations, createCategory);
 router.put('/:id', putCategoriesValidations, updateCategory);
 
 //Borrar categoria - ADMIN_ROLE unicamente
-router.delete('/:id', deleteCategoriesValidations);
+router.delete('/:id', deleteCategoriesValidations, removeCategory);
 
 
 module.exports = router;

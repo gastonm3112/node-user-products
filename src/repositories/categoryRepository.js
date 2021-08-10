@@ -24,6 +24,9 @@ class CategoryRepository {
     return await Category.findByIdAndUpdate(id, category, { new: true });
   }
 
+  async removeCategory(id) {
+    return await Category.findByIdAndUpdate(id, { state: false });
+  }
 
 }
 

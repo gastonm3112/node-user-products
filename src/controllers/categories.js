@@ -1,7 +1,6 @@
 const express = require('express');
 const categoryService = require('../services/categoryService');
 const Success = require('../handlers/succesHandler');
-const user = require('../models/user');
 
 /**
  * 
@@ -43,8 +42,6 @@ const getCategoryById = async (req, res, next) => {
 
 }
 
-
-
 /**
  * 
  * @param {Express.Request} req 
@@ -67,7 +64,6 @@ const createCategory = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
 }
 
 /**
@@ -96,9 +92,27 @@ const updateCategory = async (req, res, next) => {
   }
 }
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.Response} res 
+ * @param {Express.next} next
+ */
+const removeCategory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const category = await categoryService.removeCategory(id);
+
+    res.status(200).json(new Success(category));
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getCategories,
   getCategoryById,
   createCategory,
   updateCategory,
+  removeCategory
 }
