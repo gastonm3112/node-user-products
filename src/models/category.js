@@ -23,6 +23,22 @@ const categorySchema = Schema({
 categorySchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
 categorySchema.plugin(mongoosePaginate);
 
+mongoosePaginate.paginate.options = {
+  collation: {
+    locale: 'en',
+    strength: 2
+  },
+  populate: {
+    path: 'user',
+    select: ['name', 'email']
+  }
+};
+
+categorySchema.methods.toJSON = function () {
+  const { __v, state, ...category } = this.toObject();
+  return category;
+}
+
 
 
 module.exports = model('category', categorySchema);

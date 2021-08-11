@@ -12,12 +12,7 @@ const getCategories = async (req, res, next) => {
 
   const { filter, options } = req.query;
 
-  const customOptions = {
-    options,
-    populate: 'user'
-  }
-
-  const categories = await categoryService.getAllCategories(filter, customOptions);
+  const categories = await categoryService.getAllCategories(filter, options);
 
   res.json(new Success(categories));
 }

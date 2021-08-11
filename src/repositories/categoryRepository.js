@@ -5,7 +5,7 @@ class CategoryRepository {
   constructor() { }
 
   async getCategoriesWithPagination(filter, options) {
-    return await Category.paginate(filter, options);
+    return await Category.paginate({ filter, state: true }, options);
   }
 
   async findCategoryById(id) {
