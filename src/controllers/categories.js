@@ -9,12 +9,16 @@ const Success = require('../handlers/succesHandler');
  * @param {Express.next} next 
  */
 const getCategories = async (req, res, next) => {
+  try {
+    const { filter, options } = req.query;
 
-  const { filter, options } = req.query;
+    const categories = await categoryService.getAllCategories(filter, options);
 
-  const categories = await categoryService.getAllCategories(filter, options);
+    res.json(new Success(categories));
 
-  res.json(new Success(categories));
+  } catch (error) {
+    next
+  }
 }
 
 /**
