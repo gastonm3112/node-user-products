@@ -15,9 +15,25 @@ An API REST of users with authentication
 - morgan: API's request logs in the console
 - Google signin: Authentication with google
 
+## Routes
+
+- users: CRUD operations with users and authetication
+
+  - paths:
+    - /users: CRUD operations
+    - /auth: authentication
+
+- categories:
+  - path:
+    - /categories: CRUD operations
+
+### See Documentation
+
+[Documentation](https://documenter.getpostman.com/view/14586047/TzseJmM6)
+
 ## Install
 
-Remenber to install dependencies with:
+Remember to install dependencies with:
 
 ```
 npm install
