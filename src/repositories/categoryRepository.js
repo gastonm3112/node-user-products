@@ -9,7 +9,11 @@ class CategoryRepository {
   }
 
   async findCategoryById(id) {
-    return await Category.findById(id).populate('user');
+    return await Category.findById(id)
+      .populate({
+        path: 'user',
+        select: ['name', 'email']
+      });
   }
 
   async findCategoryByName(name) {
