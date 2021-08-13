@@ -19,5 +19,8 @@ module.exports = {
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_SECRET_ID
+  },
+  log: {
+    level: process.env.LOG_LEVEL
   }
 }
