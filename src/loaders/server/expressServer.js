@@ -8,9 +8,11 @@ class ExpressServer {
   constructor() {
     this.app = express();
     this.port = config.port;
-    this.basePathUsers = `${config.api.prefix}/users`;
-    this.basePathAuth = `${config.api.prefix}/auth`;
-    this.basePathCategories = `${config.api.prefix}/categories`;
+    this.paths = {
+      auth: `${config.api.prefix}/auth`,
+      categories: `${config.api.prefix}/categories`,
+      users: `${config.api.prefix}/users`
+    };
 
     //middlewares
     this._middlewares();
@@ -36,9 +38,9 @@ class ExpressServer {
 
   _routes() {
 
-    this.app.use(`${this.basePathAuth}`, require('../../routes/auth'));
-    this.app.use(`${this.basePathUsers}`, require('../../routes/users'));
-    this.app.use(`${this.basePathCategories}`, require('../../routes/categories'));
+    this.app.use(this.paths.auth, require('../../routes/auth'));
+    this.app.use(this.paths.categories, require('../../routes/categories'));
+    this.app.use(this.paths.users, require('../../routes/users'));
   }
 
   _notFound() {
