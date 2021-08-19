@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const config = require('../../config');
+const logger = require('../logger');
 
 class ExpressServer {
 
@@ -55,6 +56,11 @@ class ExpressServer {
     this.app.use((err, req, res, next) => {
       const code = err.code || 500;
 
+      logger.error(
+        `${code} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+      )
+      logger.error(err.stack);
+
       const body = {
         error: {
           code,
@@ -69,7 +75,7 @@ class ExpressServer {
   listen() {
 
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}`);
+      logger.info(`Server running on port ${this.port}`);
     })
 
   }
