@@ -75,7 +75,10 @@ class ExpressServer {
   listen() {
 
     this.app.listen(this.port, () => {
-      logger.info(`Server running on port ${this.port}`);
+      logger.info(`
+      ###################################
+      Server running on port ${this.port}
+      ###################################`);
     })
 
   }
