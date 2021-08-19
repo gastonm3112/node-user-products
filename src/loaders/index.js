@@ -1,15 +1,16 @@
 const ExpressServer = require('./server/expressServer');
 const mongooseLoader = require('../loaders/mongoose');
+const logger = require('./logger');
 
 module.exports = async () => {
 
   //Inicio la base de datos
   await mongooseLoader();
-  console.log('Database connected succesfully');
+  logger.info('Database connected succesfully');
 
   //Inicio mi servidor
   const server = new ExpressServer();
-  console.log('Express loaded');
+  logger.info('Express loaded');
 
   server.listen();
 
