@@ -1,22 +1,34 @@
 const { Router } = require('express');
-
+const {
+  getProductsValidations,
+  postProductsValidations,
+  putProductsValidations,
+  deleteProductsValidations
+} = require('../middlewares/product');
+const {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  removeProduct
+} = require('../controllers/products');
 
 const router = new Router();
 
 //Obterner categorias - publico
-router.get('/',);
+router.get('/', getProducts);
 
 //Obtener UNA categoria - publico
-router.get('/:id',);
+router.get('/:id', getProductsValidations, getProductById);
 
 //Crear categoria - privado - Cualquier persona con un token valido
-router.post('/',);
+router.post('/', postProductsValidations, createProduct);
 
 //Actusalizar - privado - Cualquiera con token valido
-router.put('/:id',);
+router.put('/:id', putProductsValidations, updateProduct);
 
 //Borrar categoria - ADMIN_ROLE unicamente
-router.delete('/:id',);
+router.delete('/:id', deleteProductsValidations, removeProduct);
 
 
 module.exports = router;
