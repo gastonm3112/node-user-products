@@ -12,7 +12,8 @@ class ExpressServer {
     this.paths = {
       auth: `${config.api.prefix}/auth`,
       categories: `${config.api.prefix}/categories`,
-      users: `${config.api.prefix}/users`
+      users: `${config.api.prefix}/users`,
+      products: `${config.api.prefix}/products`
     };
 
     //middlewares
@@ -41,6 +42,7 @@ class ExpressServer {
 
     this.app.use(this.paths.auth, require('../../routes/auth'));
     this.app.use(this.paths.categories, require('../../routes/categories'));
+    this.app.use(this.paths.products, require('../../routes/products'));
     this.app.use(this.paths.users, require('../../routes/users'));
   }
 

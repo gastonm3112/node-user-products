@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-const categorySchema = Schema({
+const productSchema = Schema({
   name: {
     type: String,
     required: [true, 'name is mandatory'],
@@ -13,15 +13,31 @@ const categorySchema = Schema({
     default: true,
     required: true
   },
+  price: {
+    type: Number,
+    default: 0
+  },
+  description: {
+    type: String
+  },
+  available: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
   }
 });
 
-categorySchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
-categorySchema.plugin(mongoosePaginate);
+productSchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });
+productSchema.plugin(mongoosePaginate);
 
 mongoosePaginate.paginate.options = {
   collation: {
@@ -34,11 +50,11 @@ mongoosePaginate.paginate.options = {
   }
 };
 
-categorySchema.methods.toJSON = function () {
-  const { __v, state, ...category } = this.toObject();
-  return category;
+productSchema.methods.toJSON = function () {
+  const { __v, state, ...product } = this.toObject();
+  return product;
 }
 
 
 
-module.exports = model('Category', categorySchema);
+module.exports = model('Product', productSchema);
