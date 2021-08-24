@@ -44,10 +44,16 @@ mongoosePaginate.paginate.options = {
     locale: 'en',
     strength: 2
   },
-  populate: {
-    path: 'user',
-    select: ['name', 'email']
-  }
+  populate: [
+    {
+      path: 'user',
+      select: ['name', 'email']
+    },
+    {
+      path: 'category',
+      select: 'name'
+    }
+  ]
 };
 
 productSchema.methods.toJSON = function () {
