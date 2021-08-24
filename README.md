@@ -1,21 +1,24 @@
 # Node Users / Products
 
-An API REST of users with authentication
+An API REST of users - categories - products - and more with authentication
 
 ## Tools 🛠️
 
-- Express: To create the server
 - bcryptjs: Password encryptation
 - dotenv: manage .env properties
+- Express: To create the server
 - express-validator: Inputs validator
+- Google signin: Authentication with google
 - jsonwebtoken: generate tokens after user's login
 - mongoose: Modeling MongoDB Documents
 - mongoose-paginate-v2: pagination and filters
 - mongoose-unique-validator: Mongoose validator
 - morgan: API's request logs in the console
-- Google signin: Authentication with google
+- winston: A logger for the console
 
 ## Routes
+
+- basePathURL: https://new-user-products.herokuapp.com/api/v1/{path to use}
 
 - users: CRUD operations with users and authetication
 
@@ -24,8 +27,13 @@ An API REST of users with authentication
     - /auth: authentication
 
 - categories:
+
   - path:
     - /categories: CRUD operations
+
+- products
+  -path
+  - /products: CRUD operations
 
 ### See Documentation
 
