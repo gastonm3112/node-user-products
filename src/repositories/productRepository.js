@@ -13,7 +13,8 @@ class ProductRepository {
       .populate({
         path: 'user',
         select: ['name', 'email']
-      });
+      })
+      .populate('category', 'name');
   }
 
   async findProductByName(name) {
