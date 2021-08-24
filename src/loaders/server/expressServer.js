@@ -2,15 +2,19 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const config = require('../../config');
+const logger = require('../logger');
 
 class ExpressServer {
 
   constructor() {
     this.app = express();
     this.port = config.port;
-    this.basePathUsers = `${config.api.prefix}/users`;
-    this.basePathAuth = `${config.api.prefix}/auth`;
-    this.basePathCategories = `${config.api.prefix}/categories`;
+    this.paths = {
+      auth: `${config.api.prefix}/auth`,
+      categories: `${config.api.prefix}/categories`,
+      users: `${config.api.prefix}/users`,
+      products: `${config.api.prefix}/products`
+    };
 
     //middlewares
     this._middlewares();
@@ -36,9 +40,10 @@ class ExpressServer {
 
   _routes() {
 
-    this.app.use(`${this.basePathAuth}`, require('../../routes/auth'));
-    this.app.use(`${this.basePathUsers}`, require('../../routes/users'));
-    this.app.use(`${this.basePathCategories}`, require('../../routes/categories'));
+    this.app.use(this.paths.auth, require('../../routes/auth'));
+    this.app.use(this.paths.categories, require('../../routes/categories'));
+    this.app.use(this.paths.products, require('../../routes/products'));
+    this.app.use(this.paths.users, require('../../routes/users'));
   }
 
   _notFound() {
@@ -52,6 +57,11 @@ class ExpressServer {
   _errorHandler() {
     this.app.use((err, req, res, next) => {
       const code = err.code || 500;
+
+      logger.error(
+        `${code} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+      )
+      logger.error(err.stack);
 
       const body = {
         error: {
@@ -67,7 +77,10 @@ class ExpressServer {
   listen() {
 
     this.app.listen(this.port, () => {
-      console.log(`Server running on port ${this.port}`);
+      logger.info(`
+      ###################################
+      Server running on port ${this.port}
+      ###################################`);
     })
 
   }

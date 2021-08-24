@@ -1,5 +1,5 @@
 const express = require('express');
-const categoryService = require('../services/categoryService');
+const productService = require('../services/productService');
 const Success = require('../handlers/succesHandler');
 
 /**
@@ -8,13 +8,13 @@ const Success = require('../handlers/succesHandler');
  * @param {Express.Response} res
  * @param {Express.next} next 
  */
-const getCategories = async (req, res, next) => {
+const getProducts = async (req, res, next) => {
   try {
     const { options, ...filter } = req.query;
 
     filter.state = true;
 
-    const categories = await categoryService.getAllCategories(filter, options);
+    const categories = await productService.getAllProducts(filter, options);
 
     res.json(new Success(categories));
 
@@ -29,13 +29,13 @@ const getCategories = async (req, res, next) => {
  * @param {Express.Response} res
  * @param {Express.next} next 
  */
-const getCategoryById = async (req, res, next) => {
+const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const category = await categoryService.findCategoryById(id);
+    const product = await productService.findProductById(id);
 
-    res.json(new Success(category));
+    res.json(new Success(product));
 
   } catch (error) {
     next(error);
@@ -49,18 +49,19 @@ const getCategoryById = async (req, res, next) => {
  * @param {Express.Response} res
  * @param {Express.next} next 
  */
-const createCategory = async (req, res, next) => {
+const createProduct = async (req, res, next) => {
   try {
-    const name = req.body.name.toUpperCase();
+    const { state, user, ...body } = req.body;
 
     const data = {
-      name,
+      ...body,
+      name: body.name.toUpperCase(),
       user: req.user._id
     }
 
-    const category = await categoryService.saveCategory(data);
+    const product = await productService.saveProduct(data);
 
-    res.status(201).json(new Success(category));
+    res.status(201).json(new Success(product));
 
   } catch (error) {
     next(error);
@@ -73,20 +74,21 @@ const createCategory = async (req, res, next) => {
  * @param {Express.Response} res
  * @param {Express.next} next 
  */
-const updateCategory = async (req, res, next) => {
+const updateProduct = async (req, res, next) => {
   try {
 
     const { id } = req.params;
-    const name = req.body.name.toUpperCase();
+    const { state, user, ...body } = req.body;
 
-    const data = {
-      name,
-      user: req.user._id
+    if (body.name) {
+      body.name = body.name.toUpperCase();
     }
 
-    const category = await categoryService.updateCategory(id, data);
+    body.user = req.user._id;
 
-    res.json(new Success(category));
+    const product = await productService.updateProduct(id, body);
+
+    res.json(new Success(product));
 
   } catch (error) {
     next(error);
@@ -99,21 +101,22 @@ const updateCategory = async (req, res, next) => {
  * @param {Express.Response} res 
  * @param {Express.next} next
  */
-const removeCategory = async (req, res, next) => {
+const removeProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const category = await categoryService.removeCategory(id);
+    const product = await productService.removeProduct(id);
 
-    res.status(200).json(new Success(category));
+    res.status(200).json(new Success(product));
   } catch (error) {
     next(error);
   }
 }
 
 module.exports = {
-  getCategories,
-  getCategoryById,
-  createCategory,
-  updateCategory,
-  removeCategory
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  removeProduct
+
 }

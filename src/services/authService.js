@@ -4,6 +4,7 @@ const { OAuth2Client } = require('google-auth-library');
 const userService = require('../services/userService');
 const AppError = require('../errors/appError');
 const config = require('../config');
+const logger = require('../loaders/logger');
 const client = new OAuth2Client(config.google.clientId);
 
 
@@ -44,7 +45,7 @@ const validToken = async (token) => {
       throw new AppError('Authentication failed! Token required', 401);
     }
 
-    console.log(`Token received: ${token}`);
+    logger.info(`Token received: ${token}`);
 
     let id;
     try {

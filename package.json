@@ -1,7 +1,7 @@
 {
   "name": "node-users-products",
-  "version": "1.2.0",
-  "description": "Node API REST of users with authentication",
+  "version": "1.3.0",
+  "description": "Node API REST of users - categories - products - and more with authentication",
   "main": "index.js",
   "scripts": {
     "start": "node src",
@@ -22,6 +22,7 @@
     "mongoose": "^5.13.2",
     "mongoose-paginate-v2": "^1.4.1",
     "mongoose-unique-validator": "^2.0.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3"
   }
 }
