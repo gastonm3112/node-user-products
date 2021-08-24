@@ -5,6 +5,10 @@ const getAllCategories = async (filter, options) => {
   return await categoryRepository.getCategoriesWithPagination(filter, options);
 }
 
+const findByIdCat = async (id) => {
+  return await categoryRepository.findByIdCat(id);
+}
+
 const findCategoryById = async (id) => {
   return await categoryRepository.findCategoryById(id);
 }
@@ -31,6 +35,7 @@ const removeCategory = async (id) => {
 
 module.exports = {
   getAllCategories,
+  findByIdCat,
   findCategoryById,
   findCategoryByName,
   saveCategory,

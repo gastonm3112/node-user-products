@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {
-  getProductsValidations,
+  getProductValidations,
   postProductsValidations,
   putProductsValidations,
   deleteProductsValidations
@@ -19,7 +19,7 @@ const router = new Router();
 router.get('/', getProducts);
 
 //Obtener UNA categoria - publico
-router.get('/:id', getProductsValidations, getProductById);
+router.get('/:id', getProductValidations, getProductById);
 
 //Crear categoria - privado - Cualquier persona con un token valido
 router.post('/', postProductsValidations, createProduct);
