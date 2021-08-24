@@ -10,7 +10,9 @@ const Success = require('../handlers/succesHandler');
  */
 const getUsers = async (req, res, next) => {
   try {
-    const { filter, options } = req.query;
+    const { options, ...filter } = req.query;
+
+    filter.state = true;
 
     const users = await userService.getAllUsers(filter, options);
 
