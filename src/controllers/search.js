@@ -10,9 +10,9 @@ const express = require('express');
 const search = async (req, res, next) => {
   try {
 
-    const { collection, term } = req.params;
+    const { collection, keyword } = req.params;
 
-    res.json({ collection, term });
+    res.json({ collection, keyword });
 
   } catch (error) {
     next(error);
