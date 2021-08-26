@@ -21,7 +21,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "mongoose-paginate-v2": "^1.4.1",
-    "mongoose-unique-validator": "^2.0.3",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
     "morgan": "^1.10.0",
     "winston": "^3.3.3"
   }
