@@ -13,7 +13,8 @@ class ExpressServer {
       auth: `${config.api.prefix}/auth`,
       categories: `${config.api.prefix}/categories`,
       users: `${config.api.prefix}/users`,
-      products: `${config.api.prefix}/products`
+      products: `${config.api.prefix}/products`,
+      search: `${config.api.prefix}/search`
     };
 
     //middlewares
@@ -44,6 +45,7 @@ class ExpressServer {
     this.app.use(this.paths.categories, require('../../routes/categories'));
     this.app.use(this.paths.products, require('../../routes/products'));
     this.app.use(this.paths.users, require('../../routes/users'));
+    this.app.use(this.paths.search, require('../../routes/search'));
   }
 
   _notFound() {
