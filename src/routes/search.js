@@ -4,7 +4,7 @@ const { search } = require('../controllers/search');
 const router = new Router();
 
 
-router.get('/:collection/:keyword', search);
+router.get('/:collection/:key', search);
 
 
 
