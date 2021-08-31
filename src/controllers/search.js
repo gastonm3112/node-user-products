@@ -1,39 +1,12 @@
 const express = require('express');
-const { ObjectId } = require('mongoose').Types;
 const AppError = require('../errors/appError');
 const Success = require('../handlers/succesHandler');
 const { COLLECTIONS } = require('../constants');
 const {
-  categoryService,
-  productService,
-  userService
+  searchService
 } = require('../services');
 
-/**
- * 
- * @param {Express.Request} req 
- * @param {Express.Request} res 
- * @param {Express.next} next 
- */
-const searchUsers = async (key, res) => {
 
-  const isMongoId = ObjectId.isValid(key); // true
-
-  if (isMongoId) {
-    const user = await userService.findById(key);
-
-    return res.json(new Success((user) ? [user] : []));
-  }
-
-  const regex = new RegExp(key, 'i');
-
-  const users = await userService.getUsers({
-    $or: [{ name: regex }, { email: regex }],
-    $and: [{ state: true }]
-  })
-
-  res.json(new Success(users));
-}
 
 
 /**
@@ -59,7 +32,10 @@ const search = async (req, res, next) => {
 
         break;
       case 'users':
-        await searchUsers(key, res);
+
+        const users = await searchService.searchUsers(key, res);
+
+        res.json(new Success(users));
         break;
       default:
         throw new AppError('Search still in progress', 500);
