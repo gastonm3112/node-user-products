@@ -9,23 +9,23 @@ class SearchRepository {
 
   constructor() { }
 
-  async searchUsers(key) {
+  async searchCategories(key) {
     const isMongoId = ObjectId.isValid(key); // true
 
     if (isMongoId) {
-      const user = await User.findById(key);
+      const category = await Category.findById(key);
 
-      return (user) ? [user] : [];
+      return (category) ? [category] : [];
     }
 
     const regex = new RegExp(key, 'i');
 
-    const users = await User.find({
-      $or: [{ name: regex }, { email: regex }],
+    const categories = await Category.find({
+      name: regex,
       $and: [{ state: true }]
     })
 
-    return users;
+    return categories;
   }
 
   async searchProducts(key) {
@@ -45,6 +45,25 @@ class SearchRepository {
     })
 
     return products;
+  }
+
+  async searchUsers(key) {
+    const isMongoId = ObjectId.isValid(key); // true
+
+    if (isMongoId) {
+      const user = await User.findById(key);
+
+      return (user) ? [user] : [];
+    }
+
+    const regex = new RegExp(key, 'i');
+
+    const users = await User.find({
+      $or: [{ name: regex }, { email: regex }],
+      $and: [{ state: true }]
+    })
+
+    return users;
   }
 }
 

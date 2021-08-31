@@ -26,7 +26,9 @@ const search = async (req, res, next) => {
 
     switch (collection) {
       case 'categories':
+        const categories = await searchService.searchCategories(key);
 
+        res.json(new Success(categories));
         break;
       case 'products':
         const products = await searchService.searchProducts(key);
