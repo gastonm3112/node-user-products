@@ -12,8 +12,13 @@ class SearchRepository {
   async searchCategories(key) {
     const isMongoId = ObjectId.isValid(key); // true
 
+    const population = [{
+      path: 'user',
+      select: ['name', 'email']
+    }];
+
     if (isMongoId) {
-      const category = await Category.findById(key);
+      const category = await Category.findById(key).populate(population);
 
       return (category) ? [category] : [];
     }
@@ -24,6 +29,7 @@ class SearchRepository {
       name: regex,
       $and: [{ state: true }]
     })
+      .populate(population);
 
     return categories;
   }
@@ -31,8 +37,18 @@ class SearchRepository {
   async searchProducts(key) {
     const isMongoId = ObjectId.isValid(key); // true
 
+    const population = [
+      {
+        path: 'user',
+        select: ['name', 'email']
+      },
+      {
+        path: 'category',
+        select: 'name'
+      }]
+
     if (isMongoId) {
-      const product = await Product.findById(key);
+      const product = await Product.findById(key).populate(population);
 
       return (product) ? [product] : [];
     }
@@ -43,6 +59,7 @@ class SearchRepository {
       name: regex,
       $and: [{ state: true }]
     })
+      .populate(population)
 
     return products;
   }
