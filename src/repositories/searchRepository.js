@@ -27,7 +27,7 @@ class SearchRepository {
 
     const categories = await Category.find({
       name: regex,
-      $and: [{ state: true }]
+      state: true
     })
       .populate(population);
 
@@ -57,7 +57,7 @@ class SearchRepository {
 
     const products = await Product.find({
       name: regex,
-      $and: [{ state: true }]
+      state: true
     })
       .populate(population)
 
