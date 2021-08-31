@@ -9,7 +9,7 @@ class SearchRepository {
 
   constructor() { }
 
-  async searchUsers(key, res) {
+  async searchUsers(key) {
     const isMongoId = ObjectId.isValid(key); // true
 
     if (isMongoId) {
@@ -26,6 +26,25 @@ class SearchRepository {
     })
 
     return users;
+  }
+
+  async searchProducts(key) {
+    const isMongoId = ObjectId.isValid(key); // true
+
+    if (isMongoId) {
+      const product = await Product.findById(key);
+
+      return (product) ? [product] : [];
+    }
+
+    const regex = new RegExp(key, 'i');
+
+    const products = await Product.find({
+      name: regex,
+      $and: [{ state: true }]
+    })
+
+    return products;
   }
 }
 

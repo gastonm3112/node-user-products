@@ -29,11 +29,13 @@ const search = async (req, res, next) => {
 
         break;
       case 'products':
+        const products = await searchService.searchProducts(key);
 
+        res.json(new Success(products));
         break;
       case 'users':
 
-        const users = await searchService.searchUsers(key, res);
+        const users = await searchService.searchUsers(key);
 
         res.json(new Success(users));
         break;
