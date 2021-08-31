@@ -15,8 +15,8 @@ class UserRepository {
     return await User.findOne({ email });
   }
 
-  async getAllUsers() {
-    return await User.find();
+  async getAllUsers(key) {
+    return await User.find(key);
   }
 
   async getAllUsersWithPagination(filter, options) {

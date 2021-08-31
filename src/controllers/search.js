@@ -22,8 +22,17 @@ const searchUsers = async (key, res) => {
   if (isMongoId) {
     const user = await userService.findById(key);
 
-    res.json(new Success((user) ? [user] : []));
+    return res.json(new Success((user) ? [user] : []));
   }
+
+  const regex = new RegExp(key, 'i');
+
+  const users = await userService.getUsers({
+    $or: [{ name: regex }, { email: regex }],
+    $and: [{ state: true }]
+  })
+
+  res.json(new Success(users));
 }
 
 
