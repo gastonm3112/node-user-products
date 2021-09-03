@@ -44,9 +44,6 @@ const search = async (req, res, next) => {
       default:
         throw new AppError('Search still in progress', 500);
     }
-
-    res.json({ collection, key });
-
   } catch (error) {
     next(error);
   }
