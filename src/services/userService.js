@@ -13,6 +13,10 @@ const getAllUsers = async (filter, options) => {
   return await userRepository.getAllUsersWithPagination(filter, options);
 }
 
+const getUsers = async (key) => {
+  return await userRepository.getAllUsers(key);
+}
+
 const save = async (user) => {
   return await userRepository.save(user);
 }
@@ -36,6 +40,7 @@ module.exports = {
   findById,
   findByEmail,
   getAllUsers,
+  getUsers,
   save,
   saveGoogleUser,
   update,

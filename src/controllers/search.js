@@ -1,4 +1,12 @@
 const express = require('express');
+const AppError = require('../errors/appError');
+const Success = require('../handlers/succesHandler');
+const { COLLECTIONS } = require('../constants');
+const {
+  searchService
+} = require('../services');
+
+
 
 
 /**
@@ -10,10 +18,32 @@ const express = require('express');
 const search = async (req, res, next) => {
   try {
 
-    const { collection, term } = req.params;
+    const { collection, key } = req.params;
 
-    res.json({ collection, term });
+    if (!COLLECTIONS.includes(collection)) {
+      throw new AppError(`Valid collections are ${COLLECTIONS}`, 400);
+    }
 
+    switch (collection) {
+      case 'categories':
+        const categories = await searchService.searchCategories(key);
+
+        res.json(new Success(categories));
+        break;
+      case 'products':
+        const products = await searchService.searchProducts(key);
+
+        res.json(new Success(products));
+        break;
+      case 'users':
+
+        const users = await searchService.searchUsers(key);
+
+        res.json(new Success(users));
+        break;
+      default:
+        throw new AppError('Search still in progress', 500);
+    }
   } catch (error) {
     next(error);
   }
