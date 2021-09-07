@@ -9,10 +9,13 @@ const COLLECTIONS = [
   'users'
 ]
 
+const VALIDEXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
+
 module.exports = {
   ADMIN_ROLE,
   USER_ROLE,
   SALES_ROLE,
   ROLES,
-  COLLECTIONS
+  COLLECTIONS,
+  VALIDEXTENSIONS
 }
