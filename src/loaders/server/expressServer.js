@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const config = require('../../config');
 const logger = require('../logger');
 
@@ -14,7 +15,8 @@ class ExpressServer {
       categories: `${config.api.prefix}/categories`,
       users: `${config.api.prefix}/users`,
       products: `${config.api.prefix}/products`,
-      search: `${config.api.prefix}/search`
+      search: `${config.api.prefix}/search`,
+      uploads: `${config.api.prefix}/uploads`
     };
 
     //middlewares
@@ -37,6 +39,12 @@ class ExpressServer {
     this.app.use(morgan('tiny'));
 
     this.app.use(express.static('src/public'));
+
+    //File upload
+    this.app.use(fileUpload({
+      useTempFiles: true,
+      tempFileDir: '/tmp/'
+    }));
   }
 
   _routes() {
@@ -44,8 +52,9 @@ class ExpressServer {
     this.app.use(this.paths.auth, require('../../routes/auth'));
     this.app.use(this.paths.categories, require('../../routes/categories'));
     this.app.use(this.paths.products, require('../../routes/products'));
-    this.app.use(this.paths.users, require('../../routes/users'));
     this.app.use(this.paths.search, require('../../routes/search'));
+    this.app.use(this.paths.users, require('../../routes/users'));
+    this.app.use(this.paths.uploads, require('../../routes/uploads'));
   }
 
   _notFound() {
