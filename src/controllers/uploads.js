@@ -16,7 +16,8 @@ const uploadFile = async (req, res, next) => {
       throw new AppError('No files were uploaded', 400);
     }
 
-    const name = await uploadService.uploadFiles(req.files);
+    //For images
+    const name = await uploadService.uploadFiles(req.files, undefined, 'images');
 
     res.status(201).json(new Success({ name }));
 
