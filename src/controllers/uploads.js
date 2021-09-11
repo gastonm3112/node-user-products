@@ -7,7 +7,7 @@ const Success = require('../handlers/succesHandler');
 /**
  * 
  * @param {Express.Request} req 
- * @param {Express.Response} res 
+ * @param {Express.response} res 
  * @param {Express.next} next 
  */
 const uploadFile = async (req, res, next) => {
@@ -26,6 +26,20 @@ const uploadFile = async (req, res, next) => {
   }
 }
 
+/**
+ * 
+ * @param {Express.Request} req 
+ * @param {Express.response} res 
+ * @param {Express.next} next 
+ */
+const updateImage = async (req, res, next) => {
+
+  const { collection, id } = req.params;
+
+  res.json({ collection, id });
+}
+
 module.exports = {
-  uploadFile
+  uploadFile,
+  updateImage
 }
