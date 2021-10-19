@@ -33,7 +33,11 @@ const productSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
     required: true
+  },
+  img: {
+    type: String
   }
+
 });
 
 productSchema.plugin(uniqueValidator, { message: 'Already exists in the Database' });

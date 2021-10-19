@@ -10,6 +10,7 @@ class UploadRepository {
 
   uploadFiles(files, validExtensions = VALIDEXTENSIONS, folder = '') {
     return new Promise((resolve, reject) => {
+
       const { file } = files;
       const splittedName = file.name.split('.');
       const extension = splittedName[splittedName.length - 1];
@@ -32,7 +33,7 @@ class UploadRepository {
 
       })
     })
-  }
+  };
 }
 
 
